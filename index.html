@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INDEX3</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    cursor: pointer;
+    overflow: hidden; /* Para esconder a rolagem da página */
+    color: white;
+  }
+  .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 250px;
+    overflow: hidden; /* Para esconder a rolagem dos elementos */
+  }
+  .shape {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: relative;
+    display: inline-block;
+    transition: transform 0.5s; /* Adiciona uma transição suave para o movimento */
+  }
+  .triangle {
+    border-width: 50px 50px 0;
+    border-color: transparent transparent transparent white;
+  }
+  .half-moon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px 50px 0 0;
+    border: 5px solid white;
+    background-color: transparent;
+    position: relative;
+    transition: transform 0.5s; /* Adiciona uma transição suave para o movimento */
+  }
+  .half-moon.left {
+    float: left;
+  }
+  .half-moon.right {
+    float: right;
+  }
+  .notification {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+  }
+  .notification-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: white;
+  }
+  .bottom-panel {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+  }
+  .panel-text {
+    margin-right: 10px;
+  }
+  .panel-input {
+    width: 200px;
+    padding: 5px;
+    border: 2px solid white;
+    border-radius: 5px;
+    background-color: transparent;
+    color: white;
+    outline: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="shape triangle left" id="leftTriangle"></div>
+  <div class="shape triangle right" id="rightTriangle"></div>
+  <div class="half-moon left" id="leftHalfMoon"></div>
+  <div class="half-moon right" id="rightHalfMoon"></div>
+</div>
+
+<!-- Ícone de notificação -->
+<div class="notification-icon" onclick="showMessage()">🔔</div>
+
+<!-- Painel inferior -->
+<div class="bottom-panel" id="bottomPanel">
+  <div class="panel-text">Where do you want to go?</div>
+  <input type="text" class="panel-input" id="panelInput" placeholder="Type here...">
+</div>
+
+<script>
+  // Variável para controlar o estado das formas (0: direita, 1: cima, 2: esquerda, 3: baixo)
+  var state = 0;
+
+  // Adiciona evento de clique para girar as formas
+  document.getElementById('leftTriangle').addEventListener('click', rotateTriangle);
+  document.getElementById('rightTriangle').addEventListener('click', rotateTriangle);
+  document.getElementById('leftHalfMoon').addEventListener('click', rotateHalfMoon);
+  document.getElementById('rightHalfMoon').addEventListener('click', rotateHalfMoon);
+
+  // Função para girar os triângulos
+  function rotateTriangle(event) {
+    // Obtém a referência do triângulo clicado
+    var triangle = event.target;
+
+    // Verifica o estado atual e gira o triângulo correspondente
+    switch (state) {
+      case 0:
+        triangle.style.transform = 'rotate(90deg)'; // Gira para cima
+        state = 1;
+        break;
+      case 1:
+        triangle.style.transform = 'rotate(180deg)'; // Gira para a esquerda
+        state = 2;
+        break;
+      case 2:
+        triangle.style.transform = 'rotate(-90deg)'; // Gira para baixo
+        state = 3;
+        break;
+      case 3:
+        triangle.style.transform = ''; // Retorna à posição original
+        state = 0;
+        break;
+      default:
+        break;
+    }
+
+    // Verifica se os dois triângulos estão virados para a direita
+    if (document.getElementById('leftTriangle').style.transform === 'rotate(90deg)' &&
+        document.getElementById('rightTriangle').style.transform === 'rotate(90deg)') {
+      // Exibe uma notificação
+      showNotification("and answers...");
+    }
+  }
+
+  // Função para girar as meias-luas
+  function rotateHalfMoon(event) {
+    // Obtém a referência da meia-lua clicada
+    var halfMoon = event.target;
+
+    // Verifica o estado atual e gira a meia-lua correspondente
+    switch (state) {
+      case 0:
+        halfMoon.style.transform = 'rotate(90deg)'; // Gira para cima
+        state = 1;
+        break;
+      case 1:
+        halfMoon.style.transform = 'rotate(180deg)'; // Gira para a esquerda
+        state = 2;
+        break;
+      case 2:
+        halfMoon.style.transform = 'rotate(-90deg)'; // Gira para baixo
+        state = 3;
+        break;
+      case 3:
+        halfMoon.style.transform = ''; // Retorna à posição original
+        state = 0;
+        break;
+      default:
+        break;
+    }
+
+    // Verifica se as duas meias-luas estão viradas para a direita
+    if (document.getElementById('leftHalfMoon').style.transform === 'rotate(90deg)' &&
+        document.getElementById('rightHalfMoon').style.transform === 'rotate(90deg)') {
+      // Exibe uma notificação
+      showNotification("Questions");
+    }
+  }
+
+  // Função para exibir uma notificação
+  function showNotification(message) {
+    // Cria um elemento de notificação
+    var notification = document.createElement('div');
+    notification.classList.add('notification');
+    notification.textContent = message;
+
+    // Adiciona o elemento à página
+    document.body.appendChild(notification);
+
+    // Remove a notificação após 3 segundos
+    setTimeout(function() {
+      notification.remove();
+    }, 3000);
+  }
+
+  // Função para mostrar a mensagem ao clicar no sino
+  function showMessage() {
+    showNotification("If you know so much about your classmates, how about a game?");
+  }
+
+  // Função para verificar se a frase digitada está correta e redirecionar o usuário
+  document.getElementById('panelInput').addEventListener('change', function() {
+    var inputValue = this.value.toLowerCase();
+    var options = [
+      "perguntas e respostas",
+      "questions and answers"
+    ];
+
+    if (options.includes(inputValue)) {
+      // Redireciona o usuário para o site
+      window.location.href = "https://eiriq.github.io/perguntas/";
+    } else {
+      // Exibe uma mensagem de erro
+      alert("Come on... it can't be that hard");
+      // Limpa o campo de entrada
+      this.value = "";
+      // Muda a cor do painel para vermelho
+      this.style.borderColor = "red";
+    }
+  });
+</script>
+
+</body>
+</html>
+
