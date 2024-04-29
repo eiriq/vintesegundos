@@ -49,21 +49,6 @@
   .half-moon.right {
     float: right;
   }
-  .notification {
-    position: fixed;
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-  }
-  .notification-icon {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    font-size: 24px;
-    color: white;
-  }
   .bottom-panel {
     position: fixed;
     bottom: 20px;
@@ -84,6 +69,14 @@
     color: white;
     outline: none;
   }
+  .notification-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
@@ -96,12 +89,12 @@
 </div>
 
 <!-- Ícone de notificação -->
-<div class="notification-icon" onclick="showMessage()">🔔</div>
+<div class="notification-icon" onclick="showNotificationAlert()">🔔</div>
 
 <!-- Painel inferior -->
 <div class="bottom-panel" id="bottomPanel">
-  <div class="panel-text">Where do you want to go?</div>
-  <input type="text" class="panel-input" id="panelInput" placeholder="Type here...">
+  <div class="panel-text">Que jogo deseja jogar hoje?</div>
+  <input type="text" class="panel-input" id="panelInput" placeholder="Digite aqui o jogo...">
 </div>
 
 <script>
@@ -144,8 +137,8 @@
     // Verifica se os dois triângulos estão virados para a direita
     if (document.getElementById('leftTriangle').style.transform === 'rotate(90deg)' &&
         document.getElementById('rightTriangle').style.transform === 'rotate(90deg)') {
-      // Exibe uma notificação
-      showNotification("and answers...");
+      // Exibe um aviso no navegador
+      showAlert("and answers...");
     }
   }
 
@@ -179,30 +172,19 @@
     // Verifica se as duas meias-luas estão viradas para a direita
     if (document.getElementById('leftHalfMoon').style.transform === 'rotate(90deg)' &&
         document.getElementById('rightHalfMoon').style.transform === 'rotate(90deg)') {
-      // Exibe uma notificação
-      showNotification("Questions");
+      // Exibe um aviso no navegador
+      showAlert("Questions");
     }
   }
 
-  // Função para exibir uma notificação
-  function showNotification(message) {
-    // Cria um elemento de notificação
-    var notification = document.createElement('div');
-    notification.classList.add('notification');
-    notification.textContent = message;
-
-    // Adiciona o elemento à página
-    document.body.appendChild(notification);
-
-    // Remove a notificação após 3 segundos
-    setTimeout(function() {
-      notification.remove();
-    }, 3000);
+  // Função para exibir um aviso no navegador
+  function showAlert(message) {
+    alert("Aviso: " + message);
   }
 
-  // Função para mostrar a mensagem ao clicar no sino
-  function showMessage() {
-    showNotification("If you know so much about your classmates, how about a game?");
+  // Função para mostrar o aviso específico quando clicar no ícone de notificação
+  function showNotificationAlert() {
+    alert("Lembre-se que para liberar a resposta, todas as formas devem estar direcionadas para o mesmo lado, em pares. Feito isso, junte as mensagens que são liberadas e forme o nome do jogo. Vamos brincar do que agora, em?");
   }
 
   // Função para verificar se a frase digitada está correta e redirecionar o usuário
@@ -229,4 +211,3 @@
 
 </body>
 </html>
-
