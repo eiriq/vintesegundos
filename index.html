@@ -44,7 +44,7 @@
         }
         header {
             position: absolute;
-            top: 20px;
+            top: 150px; /* Modificado para abaixar o título */
             opacity: 0;
             animation: fadeInTitle 2s forwards;
         }
@@ -54,33 +54,27 @@
             animation: glow 2s infinite alternate;
         }
         h2 {
-            margin-top: 5px;
+            margin-top: 20px; /* Modificado para abaixar o subtítulo */
             font-weight: normal;
         }
         .image-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 200px;
-            height: 200px;
+            width: 100px; /* Modificado para diminuir o tamanho da imagem */
+            height: 100px; /* Modificado para diminuir o tamanho da imagem */
             border-radius: 50%;
             overflow: hidden;
             opacity: 0;
             animation: fadeInImage 2s forwards 1s;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            margin-top: 50px; /* Modificado para abaixar a imagem */
         }
         .image-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border: var(--image-border);
-        }
-        .footer {
-            position: absolute;
-            bottom: 10px;
-            width: 100%;
-            text-align: center;
-            font-size: 14px;
         }
         .burger {
             position: absolute;
@@ -136,46 +130,40 @@
             left: 5px;
         }
         .menu {
-    position: absolute;
-    top: 60px;
-    left: 20px;
-    width: 200px;
-    height: 0;
-    overflow: hidden;
-    background-color: var(--color-darkGray);
-    transition: height var(--transition500), background-color var(--transition500), border-color var(--transition500);
-    border-radius: 10px;
-    border: none; /* Remove o contorno inicialmente */
-}
-
-.menu.open {
-    height: 150px;
-    border: 1px solid var(--color-darkGray); /* Adiciona o contorno quando o menu está aberto */
-}
-
-body[data-theme="light"] .menu {
-    background-color: var(--color-offwhite);
-    border: none; /* Remove o contorno no tema claro inicialmente */
-}
-
-body[data-theme="light"] .menu.open {
-    border: 1px solid var(--color-darkGray); /* Adiciona o contorno no tema claro quando o menu está aberto */
-}
-
-.menu a {
-    display: block;
-    padding: 10px;
-    color: var(--color-white);
-    text-decoration: none;
-    transition: background-color var(--transition);
-}
-
-.menu a:hover {
-    background-color: var(--color-gray);
-}
-
-body[data-theme="light"] .menu a {
-    color: var(--color-black);
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            width: 200px;
+            height: 0;
+            overflow: hidden;
+            background-color: var(--color-darkGray);
+            transition: height var(--transition500), background-color var(--transition500), border-color var(--transition500);
+            border-radius: 10px;
+            border: none;
+        }
+        .menu.open {
+            height: 150px;
+            border: 1px solid var(--color-darkGray);
+        }
+        body[data-theme="light"] .menu {
+            background-color: var(--color-offwhite);
+            border: none;
+        }
+        body[data-theme="light"] .menu.open {
+            border: 1px solid var(--color-darkGray);
+        }
+        .menu a {
+            display: block;
+            padding: 10px;
+            color: var(--color-white);
+            text-decoration: none;
+            transition: background-color var(--transition);
+        }
+        .menu a:hover {
+            background-color: var(--color-gray);
+        }
+        body[data-theme="light"] .menu a {
+            color: var(--color-black);
         }
         .switch {
             --color-dark: #0c0f14;
@@ -329,7 +317,7 @@ body[data-theme="light"] .menu a {
         <a href="contatos.html">Contato</a>
     </div>
     <div>
-        <label class="switch" for="switch">
+        <label class="switch" for="switch" aria-label="Alterar Tema">
             <input id="switch" type="checkbox" class="circle" />
             <svg
               viewBox="0 0 384 512"
@@ -344,9 +332,6 @@ body[data-theme="light"] .menu a {
                 <span class="dot"></span>
             </div>
         </label>
-    </div>
-    <div class="footer">
-        &copy; 2024 Vostro. Todos os direitos reservados.
     </div>
     <script>
         document.getElementById('switch').addEventListener('change', function() {
