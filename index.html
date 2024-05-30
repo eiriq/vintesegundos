@@ -3,79 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bem-vindos a Vostro!</title>
+    <title>VOSTRO</title>
     <style>
         :root {
-            --transition: 300ms;
-            --transition500: 500ms;
-            --color-dark: #0c0f14;
-            --color-darkGray: #21262e;
-            --color-gray: #52555a;
-            --color-offwhite: #cecece;
-            --color-black: #000000;
-            --color-white: #ffffff;
-            --color-light-theme-background: #ffffff;
-            --color-light-theme-text: #000000;
-            --color-dark-theme-background: #000000;
-            --color-dark-theme-text: #ffffff;
-            --image-border: 5px solid var(--color-white);
+            --main-bg-color: #121212;
+            --header-bg-color: #595151;
+            --sidebar-bg-color: #0f100f;
+            --highlight-color: #71aa71;
+            --highlight-hover-color: #ff0000;
+            --text-color: #ffffff;
+            --button-bg-color: #585051;
         }
-        body[data-theme="dark"] {
-            background-color: var(--color-dark-theme-background);
-            color: var(--color-dark-theme-text);
+
+        *, *::before, *::after {
+            box-sizing: border-box;
         }
-        body[data-theme="light"] {
-            background-color: var(--color-light-theme-background);
-            color: var(--color-light-theme-text);
-        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-            overflow: hidden;
-            position: relative;
-            transition: background-color var(--transition500), color var(--transition500);
+            background-color: var(--main-bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
         }
+
         header {
-            position: absolute;
-            top: 150px; /* Modificado para abaixar o título */
-            opacity: 0;
-            animation: fadeInTitle 2s forwards;
+            background-color: var(--header-bg-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px;
+            position: relative;
         }
-        h1, h2 {
-            margin: 0;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-            animation: glow 2s infinite alternate;
-        }
-        h2 {
-            margin-top: 20px; /* Modificado para abaixar o subtítulo */
-            font-weight: normal;
-        }
-        .image-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100px; /* Modificado para diminuir o tamanho da imagem */
-            height: 100px; /* Modificado para diminuir o tamanho da imagem */
-            border-radius: 50%;
-            overflow: hidden;
-            opacity: 0;
-            animation: fadeInImage 2s forwards 1s;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-            margin-top: 50px; /* Modificado para abaixar a imagem */
-        }
-        .image-container img {
+
+        header img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border: var(--image-border);
+            height: auto;
+            opacity: 0.3;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
         }
+
+        header h1 {
+            margin: 0;
+            z-index: 1;
+        }
+
         .burger {
             position: absolute;
             top: 20px;
@@ -85,271 +60,408 @@
             background: transparent;
             cursor: pointer;
             display: block;
+            z-index: 2;
         }
+
         .burger input {
             display: none;
         }
+
         .burger span {
             display: block;
             position: absolute;
             height: 4px;
             width: 100%;
-            background: currentColor;
+            background: var(--text-color);
             border-radius: 9px;
             opacity: 1;
             left: 0;
             transform: rotate(0deg);
             transition: .25s ease-in-out;
         }
+
         .burger span:nth-of-type(1) {
             top: 0px;
             transform-origin: left center;
         }
+
         .burger span:nth-of-type(2) {
             top: 50%;
             transform: translateY(-50%);
             transform-origin: left center;
         }
+
         .burger span:nth-of-type(3) {
             top: 100%;
             transform-origin: left center;
             transform: translateY(-100%);
         }
+
         .burger input:checked ~ span:nth-of-type(1) {
             transform: rotate(45deg);
             top: 0px;
             left: 5px;
         }
+
         .burger input:checked ~ span:nth-of-type(2) {
             width: 0%;
             opacity: 0;
         }
+
         .burger input:checked ~ span:nth-of-type(3) {
             transform: rotate(-45deg);
             top: 28px;
             left: 5px;
         }
-        .menu {
-            position: absolute;
-            top: 60px;
-            left: 20px;
-            width: 200px;
-            height: 0;
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: var(--sidebar-bg-color);
             overflow: hidden;
-            background-color: var(--color-darkGray);
-            transition: height var(--transition500), background-color var(--transition500), border-color var(--transition500);
-            border-radius: 10px;
-            border: none;
+            transition: left 0.3s;
+            z-index: 2;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-        .menu.open {
-            height: 150px;
-            border: 1px solid var(--color-darkGray);
-        }
-        body[data-theme="light"] .menu {
-            background-color: var(--color-offwhite);
-            border: none;
-        }
-        body[data-theme="light"] .menu.open {
-            border: 1px solid var(--color-darkGray);
-        }
-        .menu a {
+
+        .sidebar a {
             display: block;
-            padding: 10px;
-            color: var(--color-white);
+            color: var(--text-color);
+            padding: 15px 20px;
             text-decoration: none;
-            transition: background-color var(--transition);
+            border-bottom: 1px solid var(--header-bg-color);
         }
-        .menu a:hover {
-            background-color: var(--color-gray);
+
+        .sidebar a:hover {
+            background-color: var(--highlight-hover-color);
         }
-        body[data-theme="light"] .menu a {
-            color: var(--color-black);
+
+        .close-btn {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 15px 20px;
+            text-align: center;
+            background-color: var(--header-bg-color);
+            border-top: 1px solid var(--header-bg-color);
         }
-        .switch {
-            --color-dark: #0c0f14;
-            --color-darkGray: #21262e;
-            --color-gray: #52555a;
-            --color-offwhite: #cecece;
-            --shadow-color: var(--color-dark);
+
+        .content {
+            padding: 20px;
+        }
+
+        .footer {
+            background-color: var(--header-bg-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            width: 100%;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 24px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .section img {
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+            height: auto;
+            max-width: 500px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .service-item {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .service-item img {
+            width: 100px;
+            height: auto;
+            border-radius: 10px;
+            margin: 10px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .service-description {
+            flex: 1;
+            padding: 0 20px;
+            min-width: 200px;
+        }
+
+        .highlight {
+            position: relative;
+            display: inline-block;
+        }
+
+        .highlight::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 100%;
+            width: 0;
+            background-color: var(--highlight-color);
+            z-index: -1;
+            transition: width 2s;
+        }
+
+        .highlight.in-view::before {
+            width: 100%;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: var(--text-color);
+            background-color: var(--button-bg-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            margin: 20px auto;
+            display: block;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: var(--highlight-hover-color);
+        }
+
+        .fullscreen-img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s, visibility 0.5s;
+            z-index: 3;
+        }
+
+        .fullscreen-img img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        .fullscreen-img.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .close-fullscreen {
             position: absolute;
             top: 20px;
             right: 20px;
-            display: flex;
-            align-items: center;
-            width: 60px;
-            height: fit-content;
-            background-color: var(--color-dark);
-            border-radius: 30px;
-            padding: 4px;
-            transition: var(--transition500);
-            user-select: none;
+            background: var(--button-bg-color);
+            color: var(--text-color);
+            border: none;
+            padding: 10px;
             cursor: pointer;
-            overflow: hidden;
-        }
-        .switch .svg {
-            transition: var(--transition);
-            position: absolute;
-            left: 5px;
-        }
-        .switch .moon {
-            width: 18px;
-            fill: var(--color-gray);
-            opacity: 1;
-        }
-        .switch .sun {
-            transform: translateY(-50%);
-            width: 12px;
-            height: 12px;
+            font-size: 20px;
             border-radius: 50%;
-            left: calc(100% - 21.5px);
-            top: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            scale: 0.8;
-            opacity: 0;
+            transition: background 0.3s;
         }
-        .switch .sun .dot {
-            position: relative;
-            display: block;
-            width: 3px;
-            height: 3px;
-            border-radius: 50%;
-            background: var(--color-dark);
-            background: white;
-            z-index: 1;
-            box-shadow: 11px 0px 0px var(--shadow-color),
-                        10.3px 0px 0px var(--shadow-color), -11px 0px 0px var(--shadow-color),
-                        -10.3px 0px 0px var(--shadow-color), 0px -11px 0px var(--shadow-color),
-                        0px -10.3px 0px var(--shadow-color), 0px 11px 0px var(--shadow-color),
-                        0px 10.3px 0px var(--shadow-color), 8px 8px 0px var(--shadow-color),
-                        7.3px 7.3px 0px var(--shadow-color), 8px -8px 0px var(--shadow-color),
-                        7.3px -7.3px 0px var(--shadow-color), -8px -8px 0px var(--shadow-color),
-                        -7.3px -7.3px 0px var(--shadow-color), -8px 8px 0px var(--shadow-color),
-                        -7.3px 7.3px 0px var(--shadow-color);
+
+        .close-fullscreen:hover {
+            background: var(--highlight-hover-color);
         }
-        .switch .sun .dot::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: white;
-            border: 2px solid var(--color-dark);
-        }
-        .switch .circle {
-            appearance: none;
-            position: relative;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            left: 0;
-            background-color: var(--color-darkGray);
-            border: 1px solid var(--color-darkGray);
-            transition: var(--transition500);
-            box-shadow: 1px 1px 20px 3px var(--color-darkGray);
-        }
-        .switch:has(.circle:checked) {
-            background-color: var(--color-offwhite);
-        }
-        .switch:has(.circle:checked) > .circle {
-            transform: translateX(calc(100% + 2px));
-            background-color: var(--color-gray);
-            border-color: white;
-            box-shadow: 1px 1px 30px 12px white;
-        }
-        .switch:has(.circle:checked) > .sun {
-            opacity: 1;
-        }
-        .switch:has(.circle:checked) > .moon {
-            opacity: 0;
-        }
-        @keyframes fadeInTitle {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
+
+        @media (max-width: 768px) {
+            header {
+                padding: 10px;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+
+            .service-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .service-item img {
+                width: 80px;
+                margin: 5px 0;
+            }
+
+            .service-description {
+                padding: 10px;
+                min-width: 100%;
             }
         }
-        @keyframes fadeInImage {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
+
+        @media (max-width: 480px) {
+            .burger {
+                width: 30px;
+                height: 20px;
             }
-            to {
-                opacity: 1;
-                transform: scale(1);
+
+            .burger span {
+                height: 3px;
             }
-        }
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+
+            .close-fullscreen {
+                top: 10px;
+                right: 10px;
+                padding: 5px;
+                font-size: 18px;
             }
-            to {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 1);
+
+            .button {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+
+            .service-description {
+                padding: 5px;
             }
         }
     </style>
-</head>
-<body data-theme="dark">
-    <header>
-        <h1>Bem-vindos a Vostro!</h1>
-        <h2>Seu veículo limpo de verdade, no detalhe</h2>
-    </header>
-    <div class="image-container">
-        <img src="file.png" alt="Imagem central">
-    </div>
-    <label class="burger" for="burger">
-        <input type="checkbox" id="burger">
-        <span></span>
-        <span></span>
-        <span></span>
-    </label>
-    <div class="menu" id="menu">
-        <a href="nos.html">Venha nos conhecer!</a>
-        <a href="servicos.html">Serviços</a>
-        <a href="contatos.html">Contato</a>
-    </div>
-    <div>
-        <label class="switch" for="switch" aria-label="Alterar Tema">
-            <input id="switch" type="checkbox" class="circle" />
-            <svg
-              viewBox="0 0 384 512"
-              xmlns="http://www.w3.org/2000/svg"
-              class="moon svg"
-            >
-              <path
-                d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"
-              ></path>
-            </svg>
-            <div class="sun svg">
-                <span class="dot"></span>
-            </div>
-        </label>
-    </div>
     <script>
-        document.getElementById('switch').addEventListener('change', function() {
-            if (this.checked) {
-                document.body.setAttribute('data-theme', 'light');
-            } else {
-                document.body.setAttribute('data-theme', 'dark');
-            }
-        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const burger = document.getElementById('burger');
+            const sidebar = document.getElementById('sidebar');
+            const closeBtn = document.getElementById('close-btn');
+            const highlights = document.querySelectorAll('.highlight');
+            const saibaMaisBtn = document.getElementById('saiba-mais');
+            const images = document.querySelectorAll('.section img, .service-item img');
+            const fullscreenContainer = document.createElement('div');
+            fullscreenContainer.classList.add('fullscreen-img');
+            const fullscreenImage = document.createElement('img');
+            const closeFullscreenBtn = document.createElement('button');
+            closeFullscreenBtn.classList.add('close-fullscreen');
+            closeFullscreenBtn.innerText = 'X';
+            closeFullscreenBtn.setAttribute('id', 'FECAHRZ1');
+            fullscreenContainer.appendChild(fullscreenImage);
+            fullscreenContainer.appendChild(closeFullscreenBtn);
+            document.body.appendChild(fullscreenContainer);
 
-        document.getElementById('burger').addEventListener('change', function() {
-            if (this.checked) {
-                document.getElementById('menu').classList.add('open');
-            } else {
-                document.getElementById('menu').classList.remove('open');
+            burger.addEventListener('change', () => {
+                sidebar.style.left = burger.checked ? '0' : '-250px';
+            });
+
+            closeBtn.addEventListener('click', () => {
+                sidebar.style.left = '-250px';
+                burger.checked = false;
+            });
+
+            saibaMaisBtn.addEventListener('click', () => {
+                sidebar.style.left = '0';
+                burger.checked = true;
+            });
+
+            images.forEach(image => {
+                image.addEventListener('click', () => {
+                    fullscreenImage.src = image.src;
+                    fullscreenContainer.classList.add('show');
+                });
+            });
+
+            closeFullscreenBtn.addEventListener('click', () => {
+                fullscreenContainer.classList.remove('show');
+            });
+
+            function onEntry(entry) {
+                entry.forEach(change => {
+                    if (change.isIntersecting) {
+                        change.target.classList.add('in-view');
+                    }
+                });
             }
+
+            const options = {
+                threshold: [0.5]
+            };
+            const observer = new IntersectionObserver(onEntry, options);
+            highlights.forEach(highlight => {
+                observer.observe(highlight);
+            });
         });
     </script>
+</head>
+<body>
+    <header>
+        <img src="file.jpg" alt="VOSTROCARS Logo">
+        <h1>VOSTROCARS</h1>
+        <label class="burger" for="burger">
+            <input type="checkbox" id="burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+    </header>
+
+    <nav id="sidebar" class="sidebar" aria-label="Sidebar">
+        <div>
+            <a href="contato.html">Contatos</a>
+            <a href="horarios.html">Horários</a>
+            <a href="servicos.html">Serviços</a>
+            <a href="agendar.html">Agendar</a>
+        </div>
+        <div class="close-btn" id="close-btn" role="button" aria-label="Close sidebar">&times;</div>
+    </nav>
+
+    <div class="content">
+        <section class="section">
+            <div class="section-title highlight">Quem somos?</div>
+            <p>Bem-vindo ao Vostro Lava-Rápido, o seu destino confiável para serviços de limpeza de automóveis em Hortolândia. Oferecemos uma variedade de serviços para atender às suas necessidades específicas de limpeza de carros.</p>
+            <img src="vostro.jpg" alt="Lava Jato Vostro">
+        </section>
+        
+        <section class="section">
+            <div class="section-title highlight">Nossos serviços</div>
+            <div class="service-item">
+                <div class="service-description">
+                    <h3 class="highlight">Higienização Vostro Simples - Externa ou Interna (R$ 55)</h3>
+                    <p>Este serviço inclui pré-lavagem com shampoo neutro, limpeza externa ou interna, aplicação de produto para pneus e cera de carnaúba verdadeira.</p>
+                </div>
+                <img src="simples.jpg" alt="Higienização Vostro Simples">
+            </div>
+            <div class="service-item">
+                <img src="completa.jpg" alt="Vostro Completa">
+                <div class="service-description">
+                    <h3 class="highlight">Vostro Completa - Externa e Interna (R$ 70)</h3>
+                    <p>Este serviço oferece uma limpeza completa, tanto interna quanto externa, além dos serviços oferecidos na Higienização Vostro Simples.</p>
+                </div>
+            </div>
+            <div class="service-item">
+                <div class="service-description">
+                    <h3 class="highlight">Vostro Detalhada - Completa + Chassi + Motor (R$ 240)</h3>
+                    <p>Este é o nosso serviço mais completo, que inclui todos os serviços da Vostro Completa, além de limpeza detalhada do chassi e do motor.</p>
+                </div>
+                <img src="extrema.jpg" alt="Vostro Detalhada">
+            </div>
+        </section>
+        <a id="saiba-mais" class="button">Saiba mais</a>
+    </div>
+
+    <footer class="footer">
+        &copy; 2024 VOSTRO. Todos os direitos reservados.
+    </footer>
 </body>
 </html>
-
