@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamentos - VOSTRO</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #ffffff;
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        header {
+            background-color: #585051;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        header img {
+            height: auto;
+            opacity: 0.3;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        header .title-container {
+            display: flex;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0;
+            z-index: 1;
+            margin-left: 10px;
+        }
+        header .logo-square {
+            width: 40px;
+            height: 40px;
+            background-image: url('file.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        .burger {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 30px;
+            background: transparent;
+            cursor: pointer;
+            display: block;
+        }
+        .burger input {
+            display: none;
+        }
+        .burger span {
+            display: block;
+            position: absolute;
+            height: 4px;
+            width: 100%;
+            background: white;
+            border-radius: 9px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+        .burger span:nth-of-type(1) {
+            top: 0px;
+            transform-origin: left center;
+        }
+        .burger span:nth-of-type(2) {
+            top: 50%;
+            transform: translateY(-50%);
+            transform-origin: left center;
+        }
+        .burger span:nth-of-type(3) {
+            top: 100%;
+            transform-origin: left center;
+            transform: translateY(-100%);
+        }
+        .burger input:checked ~ span:nth-of-type(1) {
+            transform: rotate(45deg);
+            top: 0px;
+            left: 5px;
+        }
+        .burger input:checked ~ span:nth-of-type(2) {
+            width: 0%;
+            opacity: 0;
+        }
+        .burger input:checked ~ span:nth-of-type(3) {
+            transform: rotate(-45deg);
+            top: 28px;
+            left: 5px;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #0e100e; /* Cor alterada */
+            overflow: hidden;
+            transition: left 0.3s;
+            z-index: 2;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            border-bottom: 1px solid #585150; /* Cor alterada */
+            transition: background-color 0.3s; /* Adicionado */
+        }
+        .sidebar a:hover {
+            background-color: #ff0000; /* Cor alterada para hover */
+        }
+        .close-btn, .close-sidebar-btn {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 15px 20px;
+            text-align: center;
+            background-color: #585150; /* Cor alterada */
+            border-top: 1px solid #585150; /* Cor alterada */
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+        }
+        .footer {
+            background-color: #585051;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .form-container {
+            background-color: #202020;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #585150; /* Cor alterada */
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #585150; /* Cor alterada */
+            background-color: #303030;
+            color: white;
+        }
+        .form-group input:focus {
+            border-color: #ff0000; /* Cor alterada */
+            outline: none;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff0000;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .form-group button:hover {
+            background-color: #cc0000;
+        }
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 15px;
+            }
+        }
+        @media (max-width: 480px) {
+            header {
+                flex-direction: column;
+                padding: 10px;
+            }
+            .burger {
+                top: 10px;
+                left: 10px;
+            }
+            .sidebar {
+                width: 200px;
+            }
+            .content {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="file.png" alt="VOSTRO Logo">
+    <div class="title-container">
+        <div class="logo-square"></div>
+        <h1>VOSTRO</h1>
+    </div>
+    <label class="burger" for="burger">
+        <input type="checkbox" id="burger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+</header>
+
+<nav id="sidebar" class="sidebar">
+    <div>
+        <a href="index.html">Início</a>
+        <a href="horarios.html">Horários</a>
+        <a href="contatos.html">Contatos</a>
+        <a href="agendar.html">Agendar</a> <!-- Nova opção adicionada -->
+         </div>
+    <div class="close-btn" id="close-sidebar-btn">&times;</div>
+</nav>
+
+<div class="content">
+    <div class="form-container">
+        <h2>Agendar Serviço</h2>
+        <form>
+            <div class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Telefone</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Agendar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>© 2023 VOSTRO. Todos os direitos reservados.</p>
+</footer>
+
+<script>
+    document.querySelector('.burger input').addEventListener('change', function() {
+        const sidebar = document.getElementById('sidebar');
+        if (this.checked) {
+            sidebar.style.left = '0';
+        } else {
+            sidebar.style.left = '-250px';
+        }
+    });
+
+    document.getElementById('close-sidebar-btn').addEventListener('click', function() {
+        document.querySelector('.burger input').checked = false;
+        document.getElementById('sidebar').style.left = '-250px';
+    });
+</script>
+
+</body>
+</html>
+
+
