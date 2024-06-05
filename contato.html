@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - VOSTRO</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+        @font-face {
+            font-family: 'Georgia Ref Regular';
+            src: url('https://example.com/fonts/GeorgiaRefRegular.ttf'); /* Substitua pelo caminho correto da fonte */
+        }
+        :root {
+            --main-bg-color: #000000;
+            --header-footer-bg-color: #000000;
+            --sidebar-bg-color: #605454;
+            --highlight-color: #e3b778;
+            --highlight-hover-color: #ff0000; /* Cor alterada */
+            --text-color: #ffffff;
+            --sidebar-width: 250px;
+            --close-btn-bg-color: #000000;
+            --underline-color: #ffffff; /* Cor da linha sublinhada */
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--main-bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative; /* Adicionado para a centralização do botão */
+        }
+
+        header {
+            background-color: var(--header-footer-bg-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        header img {
+            height: auto;
+            opacity: 0.3;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        header .logo-square {
+            width: 150px; /* Aumenta o tamanho da logo */
+            height: 150px; /* Aumenta o tamanho da logo */
+            background-image: url('file.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            margin: auto; /* Centraliza a logo */
+        }
+
+        .burger {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 30px;
+            background: transparent;
+            cursor: pointer;
+            display: block;
+        }
+
+        .burger input {
+            display: none;
+        }
+
+        .burger span {
+            display: block;
+            position: absolute;
+            height: 4px;
+            width: 100%;
+            background: var(--text-color);
+            border-radius: 9px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+
+        .burger span:nth-of-type(1) {
+            top: 0px;
+            transform-origin: left center;
+        }
+
+        .burger span:nth-of-type(2) {
+            top: 50%;
+            transform: translateY(-50%);
+            transform-origin: left center;
+        }
+
+        .burger span:nth-of-type(3) {
+            top: 100%;
+            transform-origin: left center;
+            transform: translateY(-100%);
+        }
+
+        .burger input:checked ~ span:nth-of-type(1) {
+            transform: rotate(45deg);
+            top: 0px;
+            left: 5px;
+        }
+
+        .burger input:checked ~ span:nth-of-type(2) {
+            width: 0%;
+            opacity: 0;
+        }
+
+        .burger input:checked ~ span:nth-of-type(3) {
+            transform: rotate(-45deg);
+            top: 28px;
+            left: 5px;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--sidebar-width));
+            width: var(--sidebar-width);
+            height: 100%;
+            background-color: var(--sidebar-bg-color);
+            overflow: hidden;
+            transition: left 0.3s;
+            z-index: 4;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar a {
+            display: block;
+            color: var(--text-color);
+            padding: 15px 20px;
+            text-decoration: none;
+            border-bottom: 1px solid var(--header-footer-bg-color);
+        }
+
+        .sidebar a:hover {
+            background-color: var(--highlight-hover-color);
+        }
+
+        .close-btn {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 15px 20px;
+            text-align: center;
+            background-color: var(--close-btn-bg-color);
+            border-top: 1px solid var(--header-footer-bg-color);
+        }
+
+        .content {
+            flex: 1;
+            padding: 150px 20px 20px; /* Ajuste do espaçamento superior para centralizar o conteúdo */
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 40px; /* Ajuste a margem superior conforme necessário */
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .contact-item img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .custom-font {
+            font-family: 'Georgia Ref Regular', serif;
+        }
+
+        .highlight {
+            position: relative;
+            display: inline-block;
+        }
+
+        .highlight::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--underline-color);
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 1s ease; /* Diminui a velocidade da animação */
+        }
+
+        .highlight.animated::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .contact-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: var(--text-color);
+            background-color: #71aa71; /* Cor do botão alterada */
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            position: absolute;
+            bottom: 20px; /* Ajuste este valor para subir o botão */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .contact-button:hover {
+            background-color: #ff0000; /* Cor de hover do botão alterada */
+        }
+
+        .fullscreen-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .fullscreen-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        .fullscreen-overlay .close-fullscreen {
+            position: absolute;
+            bottom: 20px;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            header .title-container {
+                flex-direction: column;
+                margin-left: 0;
+            }
+
+            header h1 {
+                margin-left: 0;
+                margin-top: 10px;
+                font-size: 1.5em;
+            }
+
+            .sidebar {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .burger {
+                top: 10px;
+                left: 10px;
+            }
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .content {
+                padding: 10px;
+            }
+
+            .contact-button {
+                bottom: 10px; /* Ajuste este valor para subir o botão em telas menores */
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-square"></div>
+    <label class="burger">
+        <input type="checkbox" id="burger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+</header>
+
+<nav class="sidebar" id="sidebar">
+    <div>
+        <a href="index.html">Início</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="horarios.html">Horários</a> <!-- Botão Horários adicionado -->
+    </div>
+    <div class="close-btn" id="close-btn">&times;</div>
+</nav>
+
+<div class="content">
+    <h1>Entre em contato conosco e agende seu horário!</h1>
+    <div class="contact-item">
+        <img src="cell.png" alt="Telefone">
+        <span class="custom-font highlight">(19) 99826-9211</span>
+    </div>
+    <div class="contact-item">
+        <img src="zap.png" alt="WhatsApp">
+        <span class="custom-font highlight">Ou pelo nosso WhatsApp: (19) 99826-9211</span>
+    </div>
+    <p class="custom-font highlight">Ou venha até nós: R. Maria Ribeiro dos Santos Prattis, 224 - Parque Sao Miguel, Hortolândia - SP, 13186-623</p>
+</div>
+
+<a href="https://wa.me/5519998269211" class="contact-button">Entre em Contato!</a> <!-- Botão centralizado no canto inferior -->
+
+<script>
+    document.querySelector('.burger input').addEventListener('change', function() {
+        const sidebar = document.getElementById('sidebar');
+        if (this.checked) {
+            sidebar.style.left = '0';
+        } else {
+            sidebar.style.left = 'calc(-1 * var(--sidebar-width))';
+        }
+    });
+
+    document.getElementById('close-btn').addEventListener('click', function() {
+        document.querySelector('.burger input').checked = false;
+        document.getElementById('sidebar').style.left = 'calc(-1 * var(--sidebar-width))';
+    });
+
+    // Adiciona a classe animada automaticamente ao carregar a página
+    window.addEventListener('load', () => {
+        const highlights = document.querySelectorAll('.highlight');
+        highlights.forEach((highlight) => {
+            highlight.classList.add('animated');
+        });
+    });
+</script>
+
+</body>
+</html>
+

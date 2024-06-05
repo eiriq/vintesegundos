@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horários - VOSTRO</title>
+    <style>
+        :root {
+            --main-bg-color: #000000;
+            --header-footer-bg-color: #000000;
+            --sidebar-bg-color: #585051; /* Novo fundo do painel lateral */
+            --highlight-color: #70aa70;
+            --highlight-hover-color: #ff0000;
+            --text-color: #ffffff;
+            --sidebar-width: 200px;
+            --underline-color: #ffffff;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia Ref Regular', serif; /* Fonte modificada */
+            margin: 0;
+            padding: 0;
+            background-color: var(--main-bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--header-footer-bg-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 150px;
+        }
+
+        header .logo-square {
+            width: 150px;
+            height: 150px;
+            background-image: url('file.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .burger {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 30px;
+            background: transparent;
+            cursor: pointer;
+            display: block;
+            z-index: 2;
+        }
+
+        .burger input {
+            display: none;
+        }
+
+        .burger span {
+            display: block;
+            position: absolute;
+            height: 4px;
+            width: 100%;
+            background: var(--text-color);
+            border-radius: 9px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+
+        .burger span:nth-of-type(1) {
+            top: 0px;
+            transform-origin: left center;
+        }
+
+        .burger span:nth-of-type(2) {
+            top: 50%;
+            transform: translateY(-50%);
+            transform-origin: left center;
+        }
+
+        .burger span:nth-of-type(3) {
+            top: 100%;
+            transform-origin: left center;
+            transform: translateY(-100%);
+        }
+
+        .burger input:checked ~ span:nth-of-type(1) {
+            transform: rotate(45deg);
+            top: 0px;
+            left: 5px;
+        }
+
+        .burger input:checked ~ span:nth-of-type(2) {
+            width: 0%;
+            opacity: 0;
+        }
+
+        .burger input:checked ~ span:nth-of-type(3) {
+            transform: rotate(-45deg);
+            top: 28px;
+            left: 5px;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--sidebar-width));
+            width: var(--sidebar-width);
+            height: 100%;
+            background-color: var(--sidebar-bg-color); /* Cor do painel lateral */
+            overflow: hidden;
+            transition: left 0.3s;
+            z-index: 2;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-family: Arial, sans-serif; /* Fonte original */
+        }
+
+        .sidebar a {
+            display: block;
+            color: var(--text-color);
+            padding: 15px 20px;
+            text-decoration: none;
+            border-bottom: 1px solid var(--header-footer-bg-color);
+        }
+
+        .sidebar a:hover {
+            background-color: var(--highlight-hover-color);
+        }
+
+        .close-btn {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 15px 20px;
+            text-align: center;
+            background-color: #000000; /* Cor do botão de fechar */
+            border-top: 1px solid var(--header-footer-bg-color);
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .highlight {
+            position: relative;
+            display: inline-block;
+        }
+
+        .highlight::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--underline-color);
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 1s ease; /* Animação lenta */
+        }
+
+        .highlight.animated::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 10px;
+            }
+
+            header .title-container {
+                flex-direction: column;
+            }
+
+            .burger {
+                width: 30px;
+                height: 20px;
+            }
+
+            .burger span {
+                height: 3px;
+            }
+
+            .close-btn {
+                top: 10px;
+                right: 10px;
+                padding: 5px;
+                font-size: 18px;
+            }
+
+            .content {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .burger {
+                top: 15px;
+                left: 15px;
+            }
+
+            .burger span {
+                height: 2px;
+            }
+
+            .close-btn {
+                top: 5px;
+                right: 5px;
+                padding: 5px;
+                font-size: 16px;
+            }
+
+            .content {
+                padding: 5px;
+            }
+        }
+
+        /* Técnica de responsividade com CSS Grid */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .container > div {
+            background-color: var(--highlight-color);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo-square"></div>
+    <label class="burger" for="burger">
+        <input type="checkbox" id="burger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+</header>
+
+<nav id="sidebar" class="sidebar">
+    <div>
+        <a href="index.html">Início</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="contato.html">Contatos</a>
+    </div>
+    <div class="close-btn" id="close-btn">&times;</div>
+</nav>
+
+<div class="content">
+    <h2>Horários de Funcionamento</h2>
+    <p>Nosso estabelecimento está aberto nos seguintes horários:</p>
+    <p>Segunda à Sábado: <span class="highlight">08:00 - 18:00</span></p>
+    <p>Domingo: <span class="highlight">08:00 - 14:00</span></p>
+</div>
+
+<script>
+    document.querySelector('.burger input').addEventListener('change', function() {
+        const sidebar = document.getElementById('sidebar');
+        if (this.checked) {
+            sidebar.style.left = '0';
+        } else {
+            sidebar.style.left = `calc(-1 * var(--sidebar-width))`;
+        }
+    });
+
+    document.getElementById('close-btn').addEventListener('click', function() {
+        document.querySelector('.burger input').checked = false;
+        document.getElementById('sidebar').style.left = `calc(-1 * var(--sidebar-width))`;
+    });
+
+    // Adiciona a classe animada automaticamente ao carregar a página
+    window.addEventListener('load', () => {
+        const highlights = document.querySelectorAll('.highlight');
+        highlights.forEach((highlight) => {
+            highlight.classList.add('animated');
+        });
+    });
+</script>
+</body>
+</html>
+
