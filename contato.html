@@ -222,25 +222,6 @@
             transform-origin: bottom left;
         }
 
-        .contact-button {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 18px;
-            color: var(--text-color);
-            background-color: #71aa71; /* Cor do botão alterada */
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            position: absolute;
-            bottom: 20px; /* Ajuste este valor para subir o botão */
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .contact-button:hover {
-            background-color: #ff0000; /* Cor de hover do botão alterada */
-        }
-
         .fullscreen-overlay {
             display: none;
             position: fixed;
@@ -309,12 +290,6 @@
             .content {
                 padding: 10px;
             }
-
-            .contact-button {
-                bottom: 10px; /* Ajuste este valor para subir o botão em telas menores */
-                left: 50%;
-                transform: translateX(-50%);
-            }
         }
     </style>
 </head>
@@ -347,12 +322,10 @@
     </div>
     <div class="contact-item">
         <img src="zap.png" alt="WhatsApp">
-        <span class="custom-font highlight">Ou pelo nosso WhatsApp: (19) 99826-9211</span>
+        <a href="https://wa.me/5519998269211" class="custom-font highlight">Ou pelo nosso WhatsApp: (19) 99826-9211</a>
     </div>
     <p class="custom-font highlight">Ou venha até nós: R. Maria Ribeiro dos Santos Prattis, 224 - Parque Sao Miguel, Hortolândia - SP, 13186-623</p>
 </div>
-
-<a href="https://wa.me/5519998269211" class="contact-button">Entre em Contato!</a> <!-- Botão centralizado no canto inferior -->
 
 <script>
     document.querySelector('.burger input').addEventListener('change', function() {
@@ -380,4 +353,3 @@
 
 </body>
 </html>
-
