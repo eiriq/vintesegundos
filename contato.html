@@ -222,6 +222,15 @@
             transform-origin: bottom left;
         }
 
+        .highlight span {
+            color: var(--text-color); /* Usa a cor branca definida na variável */
+            cursor: pointer;
+        }
+
+        .highlight span:hover {
+            color: var(--highlight-hover-color); /* Adiciona uma cor de destaque ao passar o mouse */
+        }
+
         .fullscreen-overlay {
             display: none;
             position: fixed;
@@ -322,7 +331,7 @@
     </div>
     <div class="contact-item">
         <img src="zap.png" alt="WhatsApp">
-        <a href="https://wa.me/5519998269211" class="custom-font highlight">Ou pelo nosso WhatsApp: (19) 99826-9211</a>
+        <span class="custom-font highlight" id="whatsapp-link">Ou pelo nosso WhatsApp: (19) 99826-9211 (Clique aqui)</span>
     </div>
     <p class="custom-font highlight">Ou venha até nós: R. Maria Ribeiro dos Santos Prattis, 224 - Parque Sao Miguel, Hortolândia - SP, 13186-623</p>
 </div>
@@ -348,6 +357,11 @@
         highlights.forEach((highlight) => {
             highlight.classList.add('animated');
         });
+    });
+
+    // Adiciona evento de clique para o WhatsApp
+    document.getElementById('whatsapp-link').addEventListener('click', function() {
+        window.location.href = 'https://wa.me/5519998269211';
     });
 </script>
 
