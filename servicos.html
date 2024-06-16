@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços - VOSTRO</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000000; /* Fundo da página */
+            color: #ffffff;
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px;
+            background: none; /* Removida a faixa cinza */
+        }
+        header img {
+            height: 150px; /* Novo tamanho da imagem */
+            width: 150px;  /* Novo tamanho da imagem */
+            /* Removida a opacidade */
+        }
+        .burger {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 30px;
+            background: transparent;
+            cursor: pointer;
+            display: block;
+        }
+        .burger input {
+            display: none;
+        }
+        .burger span {
+            display: block;
+            position: absolute;
+            height: 4px;
+            width: 100%;
+            background: white;
+            border-radius: 9px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+        .burger span:nth-of-type(1) {
+            top: 0px;
+            transform-origin: left center;
+        }
+        .burger span:nth-of-type(2) {
+            top: 50%;
+            transform: translateY(-50%);
+            transform-origin: left center;
+        }
+        .burger span:nth-of-type(3) {
+            top: 100%;
+            transform-origin: left center;
+            transform: translateY(-100%);
+        }
+        .burger input:checked ~ span:nth-of-type(1) {
+            transform: rotate(45deg);
+            top: 0px;
+            left: 5px;
+        }
+        .burger input:checked ~ span:nth-of-type(2) {
+            width: 0%;
+            opacity: 0;
+        }
+        .burger input:checked ~ span:nth-of-type(3) {
+            transform: rotate(-45deg);
+            top: 28px;
+            left: 5px;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px; /* Aumentado o tamanho do painel lateral */
+            width: 300px; /* Aumentado o tamanho do painel lateral */
+            height: 100%;
+            background-color: #585051; /* Fundo geral do painel */
+            overflow: hidden;
+            transition: left 0.3s;
+            z-index: 2;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            border-bottom: 1px solid #585150;
+            transition: background-color 0.3s;
+            border: 0.5px solid #000000; /* Contorno preto mais fino */
+        }
+        .sidebar a:hover {
+            background-color: #ff0000;
+        }
+        .close-btn, .close-sidebar-btn {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 15px 20px;
+            text-align: center;
+            background-color: #000000; /* Fundo do botão de fechar */
+            border-top: 1px solid #585150;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+        }
+        .service-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .service-block {
+            background-color: #202020;
+            width: calc(50% - 20px);
+            margin: 10px;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #585150;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+        .service-block:hover {
+            background-color: #333333;
+        }
+        .service-block h3 {
+            margin: 0 0 10px 0;
+        }
+        .service-block button {
+            background-color: #ff0000;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .service-block button:hover {
+            background-color: #cc0000;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            animation: fadeIn 0.5s forwards;
+        }
+        .modal-content {
+            background: #121212;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            position: relative;
+            width: 80%;
+            max-width: 500px;
+            color: white;
+            transform: translateY(-100%);
+            transition: transform 0.5s ease-in-out;
+        }
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+        .modal.detailed .modal-content {
+            max-width: 350px; /* Reduzido ainda mais o tamanho do modal detalhado */
+        }
+        .close-modal {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: #ff0000;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .modal-content h3 {
+            margin-top: 0;
+        }
+        .modal-content p {
+            margin-bottom: 10px;
+        }
+        .modal-content .highlight {
+            color: #32CD32; /* Cor verde para os tópicos */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .modal.fade-out {
+            animation: fadeOut 0.5s forwards;
+        }
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .service-block {
+                width: calc(100% - 20px);
+            }
+        }
+        @media (max-width: 480px) {
+            header {
+                padding: 10px;
+            }
+            .burger {
+                top: 10px;
+                left: 10px;
+            }
+            .sidebar {
+                width: 250px; /* Ajuste para telas menores */
+            }
+            .content {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="file.jpg" alt="VOSTRO Logo">
+    <label class="burger" for="burger">
+        <input type="checkbox" id="burger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+</header>
+
+<nav id="sidebar" class="sidebar">
+    <div>
+        <a href="index.html">Início</a>
+        <a href="horarios.html">Horários</a>
+        <a href="contatos.html">Contatos</a>
+    </div>
+    <div class="close-btn" id="close-sidebar-btn">&times;</div>
+</nav>
+
+<div class="content">
+    <h2>Nossos Serviços</h2>
+    <div class="service-container">
+        <div class="service-block" data-service="simple">
+            <h3>Lavagem Vostro Simples</h3>
+            <button>Saiba Mais</button>
+        </div>
+        <div class="service-block" data-service="completo">
+            <h3>Lavagem Vostro Completa</h3>
+            <button>Saiba Mais</button>
+        </div>
+        <div class="service-block" data-service="detalhada">
+            <h3>Lavagem Vostro Detalhada</h3>
+            <button>Saiba Mais</button>
+        </div>
+    </div>
+    <p>
+        Cada serviço oferece diferentes níveis de detalhamento e abrangência, desde uma limpeza simples até uma manutenção detalhada que inclui chassi e motor.
+    </p>
+</div>
+
+<div class="modal" id="modal">
+    <div class="modal-content" id="modal-content">
+        <h3 id="service-title"></h3>
+        <div id="service-description"></div>
+        <button class="close-modal" id="close-modal">Fechar</button>
+    </div>
+</div>
+
+<script>
+    document.querySelector('.burger input').addEventListener('change', function() {
+        const sidebar = document.getElementById('sidebar');
+        if (this.checked) {
+            sidebar.style.left = '0';
+        } else {
+            sidebar.style.left = '-300px'; /* Ajustado para novo tamanho do painel */
+        }
+    });
+
+    document.getElementById('close-sidebar-btn').addEventListener('click', function() {
+        document.querySelector('.burger input').checked = false;
+        document.getElementById('sidebar').style.left = '-300px'; /* Ajustado para novo tamanho do painel */
+    });
+
+    const services = {
+        simple: {
+            title: 'Higienização Vostro Simples - Externa ou Interna',
+            description: `
+                <p class="highlight"><b>Pré-lavagem com Shampoo Neutro:</b></p>
+                <p>Reduz o atrito na pintura e no verniz do carro.</p>
+                <p class="highlight"><b>Limpeza Externa ou Interna:</b></p>
+                <p>Inclui aspiração e higienização interna com produto antibacteriano.</p>
+                <p class="highlight"><b>Pretinho:</b></p>
+                <p>Produto para pneus, disponível nas opções sem brilho ou com brilho, ambos com tecnologia hidrorepelente para melhor qualidade e durabilidade.</p>
+                <p class="highlight"><b>Cera de Carnaúba:</b></p>
+                <p>Aplicação de cera de carnaúba verdadeira, não é jet cera.</p>
+            `
+        },
+        completo: {
+            title: 'Vostro Completa - Externa e Interna',
+            description: `
+                <p class="highlight"><b>Pré-lavagem com Shampoo Neutro:</b></p>
+                <p>Reduz o atrito na pintura e no verniz do carro.</p>
+                <p class="highlight"><b>Limpeza Externa e Interna:</b></p>
+                <p>Inclui aspiração e higienização interna com produto antibacteriano.</p>
+                <p class="highlight"><b>Pretinho:</b></p>
+                <p>Produto para pneus, disponível nas opções sem brilho ou com brilho, ambos com tecnologia hidrorepelente para melhor qualidade e durabilidade.</p>
+                <p class="highlight"><b>Cera de Carnaúba:</b></p>
+                <p>Aplicação de cera de carnaúba verdadeira, não é jet cera.</p>
+            `
+        },
+        detalhada: {
+            title: 'Vostro Detalhada - Completa + Chassi + Motor',
+            description: `
+                <p class="highlight"><b>Pré-lavagem com Shampoo Neutro:</b></p>
+                <p>Reduz o atrito na pintura e no verniz do carro.</p>
+                <p class="highlight"><b>Limpeza Externa (Detalhada no Pincel):</b></p>
+                <p>Limpeza minuciosa com uso de pincel.</p>
+                <p class="highlight"><b>Limpeza Interna (Detalhada no Pincel):</b></p>
+                <p>Aspiração e higienização interna detalhada com pincel e produto antibacteriano.</p>
+                <p class="highlight"><b>Pretinho:</b></p>
+                <p>Produto para pneus, disponível nas opções sem brilho ou com brilho, ambos com tecnologia hidrorepelente para melhor qualidade e durabilidade.</p>
+                <p class="highlight"><b>Cera de Carnaúba:</b></p>
+                <p>Aplicação de cera de carnaúba verdadeira, não é jet cera.</p>
+                <p class="highlight"><b>Chassi:</b></p>
+                <p>Limpeza por baixo do carro, revitalizando partes enferrujadas ou sujas.</p>
+                <p class="highlight"><b>Motor:</b></p>
+                <p>Limpeza completa e aplicação de verniz para proteção dos componentes, revitalizando plásticos e evitando ressecamento.</p>
+            `
+        }
+    };
+
+    document.querySelectorAll('.service-block button').forEach(button => {
+        button.addEventListener('click', function() {
+            const serviceType = this.parentElement.getAttribute('data-service');
+            const service = services[serviceType];
+            const modalContent = document.getElementById('modal-content');
+            if (serviceType === 'detalhada') {
+                modalContent.classList.add('detailed');
+            } else {
+                modalContent.classList.remove('detailed');
+            }
+            document.getElementById('service-title').innerHTML = service.title;
+            document.getElementById('service-description').innerHTML = service.description;
+            const modal = document.getElementById('modal');
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+        });
+    });
+
+    document.getElementById('close-modal').addEventListener('click', function() {
+        const modal = document.getElementById('modal');
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 500);
+    });
+</script>
+
+</body>
+</html>
+
