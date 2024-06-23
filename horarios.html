@@ -8,12 +8,13 @@
         :root {
             --main-bg-color: #000000;
             --header-footer-bg-color: #000000;
-            --sidebar-bg-color: #585051; /* Novo fundo do painel lateral */
-            --highlight-color: #70aa70;
-            --highlight-hover-color: #ff0000;
+            --sidebar-bg-color: #605454; /* Nova cor de fundo do menu lateral */
+            --highlight-color: #e3b778; /* Nova cor de destaque */
+            --highlight-hover-color: #ff0000; /* Nova cor de destaque ao passar o mouse */
             --text-color: #ffffff;
-            --sidebar-width: 200px;
-            --underline-color: #ffffff;
+            --sidebar-width: 250px;
+            --close-btn-bg-color: #000000; /* Cor do botão fechar */
+            --underline-color: #ffffff; /* Cor do sublinhado */
         }
 
         *, *::before, *::after {
@@ -21,7 +22,7 @@
         }
 
         body {
-            font-family: 'Georgia Ref Regular', serif; /* Fonte modificada */
+            font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
             background-color: var(--main-bg-color);
@@ -30,6 +31,7 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         header {
@@ -37,30 +39,35 @@
             color: var(--text-color);
             text-align: center;
             padding: 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 2;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 150px;
         }
 
         header .logo-square {
-            width: 150px;
-            height: 150px;
+            width: 90px;
+            height: 90px;
             background-image: url('file.jpg');
             background-size: cover;
             background-position: center;
+            z-index: 1;
+            margin: auto;
         }
 
         .burger {
             position: absolute;
-            top: 20px;
+            top: 31px;
             left: 20px;
             width: 40px;
             height: 30px;
             background: transparent;
             cursor: pointer;
             display: block;
-            z-index: 2;
+            z-index: 3;
         }
 
         .burger input {
@@ -120,16 +127,15 @@
             left: calc(-1 * var(--sidebar-width));
             width: var(--sidebar-width);
             height: 100%;
-            background-color: var(--sidebar-bg-color); /* Cor do painel lateral */
+            background-color: var(--sidebar-bg-color);
             overflow: hidden;
             transition: left 0.3s;
-            z-index: 2;
+            z-index: 4;
             border-top-right-radius: 20px;
             border-bottom-right-radius: 20px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            font-family: Arial, sans-serif; /* Fonte original */
         }
 
         .sidebar a {
@@ -149,14 +155,36 @@
             cursor: pointer;
             padding: 15px 20px;
             text-align: center;
-            background-color: #000000; /* Cor do botão de fechar */
+            background-color: var(--close-btn-bg-color);
             border-top: 1px solid var(--header-footer-bg-color);
         }
 
         .content {
             flex: 1;
-            padding: 20px;
+            padding: 100px 20px 20px; /* Ajuste do espaçamento superior para centralizar o conteúdo */
             text-align: center;
+            margin-top: 20px; /* Move o conteúdo para baixo */
+        }
+
+        h1 {
+            margin-top: 20px; /* Ajuste a margem superior conforme necessário */
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .contact-item img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .custom-font {
+            font-family: 'Georgia Ref Regular', serif;
         }
 
         .highlight {
@@ -174,7 +202,7 @@
             background: var(--underline-color);
             transform: scaleX(0);
             transform-origin: bottom right;
-            transition: transform 1s ease; /* Animação lenta */
+            transition: transform 1s ease; /* Diminui a velocidade da animação */
         }
 
         .highlight.animated::after {
@@ -182,70 +210,78 @@
             transform-origin: bottom left;
         }
 
-        @media (max-width: 768px) {
-            header {
-                padding: 10px;
-            }
+        .highlight span {
+            color: var(--text-color);
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1.8em; /* Aumenta o tamanho da fonte */
+        }
 
+        .highlight span:hover {
+            color: var(--highlight-hover-color); /* Adiciona uma cor de destaque ao passar o mouse */
+        }
+
+        .fullscreen-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .fullscreen-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        .fullscreen-overlay .close-fullscreen {
+            position: absolute;
+            bottom: 20px;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+        }
+
+        .map-link {
+            width: 800px; /* Aumenta a largura da imagem */
+            height: 300px; /* Aumenta a altura da imagem */
+            margin: 20px auto;
+            cursor: pointer;
+        }
+
+        .map-link img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
             header .title-container {
                 flex-direction: column;
+                margin-left: 0;
             }
 
-            .burger {
-                width: 30px;
-                height: 20px;
+            header h1 {
+                margin-left: 0;
+                margin-top: 10px;
+                font-size: 1.5em;
             }
 
-            .burger span {
-                height: 3px;
+            .sidebar {
+                width: 200px; /* Ajusta a largura do menu lateral para telas menores */
             }
-
-            .close-btn {
-                top: 10px;
-                right: 10px;
-                padding: 5px;
-                font-size: 18px;
-            }
-
-            .content {
-                padding: 10px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .burger {
-                top: 15px;
-                left: 15px;
-            }
-
-            .burger span {
-                height: 2px;
-            }
-
-            .close-btn {
-                top: 5px;
-                right: 5px;
-                padding: 5px;
-                font-size: 16px;
-            }
-
-            .content {
-                padding: 5px;
-            }
-        }
-
-        /* Técnica de responsividade com CSS Grid */
-        .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            grid-gap: 20px;
-        }
-
-        .container > div {
-            background-color: var(--highlight-color);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
         }
     </style>
 </head>
@@ -270,14 +306,15 @@
 </nav>
 
 <div class="content">
-    <h2>Horários de Funcionamento</h2>
-    <p>Nosso estabelecimento está aberto nos seguintes horários:</p>
-    <p>Segunda à Sábado: <span class="highlight">08:00 - 18:00</span></p>
-    <p>Domingo: <span class="highlight">08:00 - 14:00</span></p>
+    <h2 style="font-size: 2em;">Horários de Funcionamento</h2>
+    <p style="font-size: 1.5em;">Nosso estabelecimento está aberto nos seguintes horários:</p>
+    <p style="font-size: 1.5em;">Segunda à Sábado: <span class="highlight">08:00 - 18:00</span></p>
+    <p style="font-size: 1.5em;">Domingo: <span class="highlight">09:00 - 14:00</span></p>
 </div>
 
 <script>
-    document.querySelector('.burger input').addEventListener('change', function() {
+    // Adiciona o evento de clique no ícone do hamburguer para mostrar/esconder o menu lateral
+    document.getElementById('burger').addEventListener('change', function() {
         const sidebar = document.getElementById('sidebar');
         if (this.checked) {
             sidebar.style.left = '0';
@@ -286,8 +323,9 @@
         }
     });
 
+    // Adiciona o evento de clique no botão fechar do menu lateral
     document.getElementById('close-btn').addEventListener('click', function() {
-        document.querySelector('.burger input').checked = false;
+        document.getElementById('burger').checked = false;
         document.getElementById('sidebar').style.left = `calc(-1 * var(--sidebar-width))`;
     });
 
@@ -299,6 +337,6 @@
         });
     });
 </script>
+
 </body>
 </html>
-
