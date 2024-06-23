@@ -19,7 +19,6 @@
             --text-color: #ffffff;
             --sidebar-width: 250px;
             --close-btn-bg-color: #000000;
-            --underline-color: #ffffff; /* Cor da linha sublinhada */
         }
 
         *, *::before, *::after {
@@ -63,8 +62,8 @@
         }
 
         header .logo-square {
-            width: 150px; /* Aumenta o tamanho da logo */
-            height: 150px; /* Aumenta o tamanho da logo */
+            width: 90px; /* Aumenta o tamanho da logo */
+            height: 90px; /* Aumenta o tamanho da logo */
             background-image: url('file.jpg');
             background-size: cover;
             background-position: center;
@@ -74,7 +73,7 @@
 
         .burger {
             position: absolute;
-            top: 20px;
+            top: 31px;
             left: 20px;
             width: 40px;
             height: 30px;
@@ -174,12 +173,13 @@
 
         .content {
             flex: 1;
-            padding: 150px 20px 20px; /* Ajuste do espaçamento superior para centralizar o conteúdo */
+            padding: 100px 20px 20px; /* Ajuste do espaçamento superior para centralizar o conteúdo */
             text-align: center;
+            margin-top: 20px; /* Move o conteúdo para baixo */
         }
 
         h1 {
-            margin-top: 40px; /* Ajuste a margem superior conforme necessário */
+            margin-top: 20px; /* Ajuste a margem superior conforme necessário */
         }
 
         .contact-item {
@@ -225,6 +225,8 @@
         .highlight span {
             color: var(--text-color); /* Usa a cor branca definida na variável */
             cursor: pointer;
+            text-decoration: none; /* Remove sublinhado */
+            font-size: 1.8em; /* Aumenta o tamanho da fonte */
         }
 
         .highlight span:hover {
@@ -263,6 +265,21 @@
             border-radius: 50%;
         }
 
+        /* Quadrado para a imagem */
+        .map-link {
+            width: 800px; /* Aumenta a largura da imagem */
+            height: 300px; /* Aumenta a altura da imagem */
+            margin: 20px auto;
+            cursor: pointer;
+        }
+
+        .map-link img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
         /* Responsividade */
         @media (max-width: 768px) {
             header .title-container {
@@ -280,38 +297,18 @@
                 width: 200px;
             }
         }
-
-        @media (max-width: 480px) {
-            header {
-                flex-direction: column;
-                padding: 10px;
-            }
-
-            .burger {
-                top: 10px;
-                left: 10px;
-            }
-
-            .sidebar {
-                width: 200px;
-            }
-
-            .content {
-                padding: 10px;
-            }
-        }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-square"></div>
-    <label class="burger">
+    <label class="burger" for="burger">
         <input type="checkbox" id="burger">
         <span></span>
         <span></span>
         <span></span>
     </label>
+    <div class="logo-square"></div>
 </header>
 
 <nav class="sidebar" id="sidebar">
@@ -326,17 +323,13 @@
 <div class="content">
     <h1>Entre em contato conosco e agende seu horário!</h1>
     <div class="contact-item">
-        <img src="cell.png" alt="Telefone">
-        <span class="custom-font highlight">(19) 99826-9211</span>
-    </div>
-    <div class="contact-item">
         <img src="zap.png" alt="WhatsApp">
-        <span class="custom-font highlight" id="whatsapp-link">Ou pelo nosso WhatsApp: (19) 99826-9211</span>
+        <span class="custom-font highlight" id="whatsapp-link" style="font-size: 1.8em;">(19) 99826-9211</span>
     </div>
-    <p class="custom-font highlight">Ou venha até nós: R. Maria Ribeiro dos Santos Prattis, 224 - Parque Sao Miguel, Hortolândia - SP, 13186-623</p>
-    <div>
-        <img src="endereço.jpg" alt="Endereço" id="small-img" style="width: 200px; height: 200px; margin-top: 10px; cursor: pointer;">
+    <div class="map-link" onclick="window.location.href='https://www.google.com.br/maps/place/Vostro+-+R.+Maria+Ribeiro+dos+Santos+Prattis,+224+-+Parque+Sao+Miguel,+Hortol%C3%A2ndia+-+SP,+13186-623/@-22.8754876,-47.2145209,16z/data=!4m6!3m5!1s0x94c8bb8c2993f7b7:0x9c6cb7c904a908b6!8m2!3d-22.8754876!4d-47.2145209!16s%2Fg%2F11kqc4b5gb'">
+        <img src="endereco.jpg" alt="Endereço" id="small-img">
     </div>
+    <p style="margin-top: 10px;">R. Maria Ribeiro dos Santos Prattis, 224 - Parque Sao Miguel, Hortolândia - SP, 13186-623</p>
 </div>
 
 <div class="fullscreen-overlay" id="fullscreen-overlay">
@@ -391,4 +384,3 @@
 
 </body>
 </html>
-
